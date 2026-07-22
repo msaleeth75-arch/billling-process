@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Net Melt Billing System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Login Screen -->
+    <div id="login-screen" class="screen active">
+        <div class="login-container">
+            <div class="logo">
+                <h1>Net Melt</h1>
+                <p>Billing & POS</p>
+            </div>
+            <form id="login-form">
+                <div class="input-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" required placeholder="admin">
+                </div>
+                <div class="input-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" required placeholder="••••••••">
+                </div>
+                <button type="submit" class="btn-primary">Secure Login</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Main Application -->
+    <div id="app-screen" class="screen">
+        <aside class="sidebar">
+            <div class="sidebar-logo">
+                <h2>Net Melt</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-item active" data-target="dashboard"><i class="icon">📊</i> Dashboard</a>
+                <a href="#" class="nav-item" data-target="billing"><i class="icon">💳</i> Billing POS</a>
+                <a href="#" class="nav-item" data-target="history"><i class="icon">📜</i> History</a>
+                <a href="#" class="nav-item" data-target="inventory"><i class="icon">📦</i> Inventory</a>
+                <a href="#" class="nav-item" data-target="reports"><i class="icon">📈</i> Reports</a>
+                <a href="#" class="nav-item" data-target="settings"><i class="icon">⚙️</i> Settings</a>
+            </nav>
+            <div class="sidebar-footer">
+                <button id="logout-btn" class="btn-outline">Logout</button>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="topbar">
+                <h3 id="current-page-title">Dashboard</h3>
+                <div class="user-info">
+                    <span>Welcome, Admin</span>
+                </div>
+            </header>
+
+            <div class="content-area">
+                <!-- Dashboard Section -->
+                <section id="dashboard" class="view active">
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <h4>Today's Sales</h4>
+                            <p class="stat-value" id="stat-today-sales">₹0</p>
+                        </div>
+                        <div class="stat-card">
+                            <h4>Weekly Sales</h4>
+                            <p class="stat-value" id="stat-weekly-sales">₹0</p>
+                        </div>
+                        <div class="stat-card">
+                            <h4>Monthly Sales</h4>
+                            <p class="stat-value" id="stat-monthly-sales">₹0</p>
+                        </div>
+                        <div class="stat-card">
+                            <h4>Total Orders</h4>
+                            <p class="stat-value" id="stat-total-orders">0</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Billing Section -->
+                <section id="billing" class="view">
+                    <div class="billing-container">
+                        <div class="billing-form panel">
+                            <h4>Customer Details</h4>
+                            <div class="form-row">
+                                <input type="text" id="customer-name" placeholder="Customer Name" required>
+                                <input type="tel" id="customer-mobile" placeholder="Mobile / WhatsApp Number" required>
+                            </div>
+                            
+                            <h4>Add Product</h4>
+                            <div class="form-row">
+                                <select id="product-select">
+                                    <option value="" disabled selected>Select Product</option>
+                                    <!-- Dynamic options -->
+                                </select>
+                                <input type="number" id="product-price" placeholder="Price (₹)" min="0">
+                                <input type="number" id="product-quantity" placeholder="Qty" min="1" value="1">
+                                <button type="button" id="add-to-bill-btn" class="btn-secondary">Add</button>
+                            </div>
+                        </div>
+
+                        <div class="billing-summary panel">
+                            <div class="bill-header">
+                                <h4>Current Bill</h4>
+                                <span id="bill-no">NM-000001</span>
+                            </div>
+                            <div class="bill-items-container">
+                                <table class="bill-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Item</th>
+                                            <th>Qty</th>
+                                            <th>Price</th>
+                                            <th>Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="bill-items">
+                                        <!-- Items will go here -->
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="bill-totals">
+                                <div class="total-row">
+                                    <span>Subtotal</span>
+                                    <span id="subtotal">₹0</span>
+                                </div>
+                                <div class="total-row">
+                                    <span>Discount (₹)</span>
+                                    <input type="number" id="discount" value="0" min="0">
+                                </div>
+                                <div class="total-row grand-total">
+                                    <span>Total Amount</span>
+                                    <span id="grand-total">₹0</span>
+                                </div>
+                            </div>
+                            <div class="payment-method">
+                                <h4>Payment Method</h4>
+                                <div class="radio-group">
+                                    <label><input type="radio" name="payment" value="Cash" checked> Cash</label>
+                                    <label><input type="radio" name="payment" value="UPI"> UPI</label>
+                                    <label><input type="radio" name="payment" value="Card"> Card</label>
+                                </div>
+                            </div>
+                            <button id="generate-bill-btn" class="btn-primary full-width">Generate Bill</button>
+                            <button id="generate-whatsapp-btn" class="btn-secondary full-width" style="margin-top: 10px; background-color: #25D366; color: white; border: none;">Generate Bill & Send via WhatsApp</button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Other Sections (History, Inventory, Reports, Settings) - Placeholders for now -->
+                <section id="history" class="view panel">
+                    <h3>Customer History</h3>
+                    <div class="search-bar">
+                        <input type="tel" id="search-history-mobile" placeholder="Search by Mobile Number">
+                        <button class="btn-secondary">Search</button>
+                    </div>
+                    <div class="history-results">
+                        <!-- Results -->
+                    </div>
+                </section>
+                
+                <section id="inventory" class="view panel">
+                    <h3>Inventory Management</h3>
+                    <button class="btn-primary" style="margin-bottom: 1rem;">+ Add Product</button>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Product Name</th>
+                                <th>Price</th>
+                                <th>Stock</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="inventory-list">
+                            <!-- Items -->
+                        </tbody>
+                    </table>
+                </section>
+
+                <section id="reports" class="view panel">
+                    <h3>Reports</h3>
+                    <button class="btn-secondary">Export Sales to Excel</button>
+                    <button class="btn-secondary">Export Invoices to PDF</button>
+                </section>
+
+                <section id="settings" class="view panel">
+                    <h3>Settings</h3>
+                    <form id="settings-form">
+                        <div class="input-group"><label>Business Name</label><input type="text" value="Net Melt"></div>
+                        <div class="input-group"><label>Address</label><input type="text" value="Premium and Healthy Chocolate"></div>
+                        <div class="input-group"><label>Phone Number</label><input type="text" value="+91 9876543210"></div>
+                        <div class="input-group"><label>Email</label><input type="email" value="info@netmelt.in"></div>
+                        <button type="submit" class="btn-primary">Save Settings</button>
+                    </form>
+                </section>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- Invoice Modal (Hidden by default) -->
+    <div id="invoice-modal" class="modal">
+        <div class="modal-content invoice-content" id="invoice-print-area">
+            <span class="close-modal">&times;</span>
+            <div class="invoice-header">
+                <h2>Net Melt</h2>
+                <p id="inv-address">Premium and Healthy Chocolate</p>
+                <p id="inv-phone">+91 9876543210</p>
+            </div>
+            <div class="invoice-details">
+                <p><strong>Bill No:</strong> <span id="inv-bill-no"></span></p>
+                <p><strong>Date:</strong> <span id="inv-date"></span></p>
+                <p><strong>Customer:</strong> <span id="inv-customer-name"></span></p>
+                <p><strong>Mobile:</strong> <span id="inv-customer-mobile"></span></p>
+            </div>
+            <table class="invoice-table">
+                <thead>
+                    <tr>
+                        <th>Item</th>
+                        <th>Qty</th>
+                        <th>Price</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody id="inv-items"></tbody>
+            </table>
+            <div class="invoice-totals">
+                <p>Subtotal: <span id="inv-subtotal"></span></p>
+                <p>Discount: <span id="inv-discount"></span></p>
+                <h3>Total: <span id="inv-grand-total"></span></h3>
+                <h4 class="payment-highlight">Payment Mode: <span id="inv-payment-mode"></span></h4>
+            </div>
+            <div class="invoice-footer">
+                <p>Thank you for choosing Net Melt!</p>
+            </div>
+            <div class="modal-actions no-print">
+                <button id="send-whatsapp-btn" class="btn-secondary" style="background-color: #25D366; color: white; border: none;">Send via WhatsApp</button>
+                <button id="print-invoice-btn" class="btn-primary">Print</button>
+                <button id="download-pdf-btn" class="btn-secondary">Download PDF</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- html2pdf for PDF generation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
